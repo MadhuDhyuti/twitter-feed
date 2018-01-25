@@ -21,6 +21,7 @@ push-release:
         working-dir: /pipeline/source
         ports: 8080
         cmd: sh target/bin/start
+        
 #Inject our Wercker application token into Kubernetes to authenticate container pulls
 #delete any existing Wercker secret before creating, to accommodate secret changes
 inject-secret:
