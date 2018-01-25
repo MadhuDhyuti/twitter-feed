@@ -2,7 +2,7 @@
 box:
   id: openjdk
   ports:
-    - $PORT
+    - 8080
 
 #Build our application using Maven, just as we always have
 build:
@@ -19,9 +19,8 @@ push-release:
     - internal/docker-push:
         tag: $WERCKER_GIT_BRANCH-$WERCKER_GIT_COMMIT
         working-dir: /pipeline/source
-        ports: $PORT
+        ports: 8080
         cmd: sh target/bin/start
-
 #Inject our Wercker application token into Kubernetes to authenticate container pulls
 #delete any existing Wercker secret before creating, to accommodate secret changes
 inject-secret:
@@ -44,7 +43,7 @@ inject-secret:
         insecure-skip-tls-verify: true
         command: create secret docker-registry wercker --docker-server=$DOCKER_REGISTRY --docker-username=$DOCKER_USERNAME --docker-password=$KUBERNETES_TOKEN --docker-email=$DOCKER_EMAIL; echo create registry secret
 
-#Deploy our container from the Oracle Container Registry to the Oracle Container Engine again(Kubernetes)
+#Deploy our container from the Oracle Container Registry to the Oracle Container Engine (Kubernetes)
 deploy-to-cluster:
     box:
         id: alpine
